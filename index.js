@@ -1,18 +1,18 @@
 /**
  * @type {import('postcss').PluginCreator}
  */
-module.exports = (opts = {filePath: "github-markdown.css"}) => {
+module.exports = (opts = {}) => {
   return {
     postcssPlugin: 'postcss-github-markdown-css',
     AtRule: {
       media(media, { Rule }) {
-        if (opts.filePath != null) {
-          const currentFilePath = media.root().source?.input?.file ?? "";
+        const expectedFilePath = opts.filePath ?? "github-markdown.css";
+        const currentFilePath = media.root().source?.input?.file ?? "";
 
-          if (!currentFilePath.endsWith(opts.filePath)){
-            return;
-          }
+        if (!currentFilePath.endsWith(expectedFilePath)){
+          return;
         }
+
 
         let scopeSelector;
         switch (media.params) {
