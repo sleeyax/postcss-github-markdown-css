@@ -14,11 +14,28 @@ Add the plugin to your postcss configuration file:
 ```js
 // postcss.config.js
 
+const config = {
+  plugins: {
+    // ...
+    tailwindcss: {},
+    "postcss-github-markdown-css": {},
+  },
+};
+
+module.exports = config;
+```
+
+Alternatively, import the plugin directly using `require`:
+
+```js
+// postcss.config.js
+
 const githubMarkdownCss = require('postcss-github-markdown-css');
 
 const config = {
   plugins: {
     // ...
+    tailwindcss: {},
     githubMarkdownCss,
   },
 };
