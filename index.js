@@ -1,30 +1,47 @@
 /**
  * @type {import('postcss').PluginCreator}
  */
-module.exports = (opts = {}) => {
-  // Work with options here
-
+module.exports = (opts = {filePath: "github-markdown.css"}) => {
   return {
     postcssPlugin: 'postcss-github-markdown-css',
-    /*
-    Root (root, postcss) {
-      // Transform CSS AST here
-    }
-    */
+    AtRule: {
+      media(media, { Rule }) {
+        if (opts.filePath != null) {
+          const currentFilePath = media.root().source?.input?.file ?? "";
 
-    /*
-    Declaration (decl, postcss) {
-      // The faster way to find Declaration node
-    }
-    */
+          if (!currentFilePath.endsWith(opts.filePath)){
+            return;
+          }
+        }
 
-    /*
-    Declaration: {
-      color: (decl, postcss) {
-        // The fastest way find Declaration node if you know property name
-      }
-    }
-    */
+        let scopeSelector;
+        switch (media.params) {
+          case "(prefers-color-scheme: dark)":
+            scopeSelector = ".dark";
+            break;
+          case "(prefers-color-scheme: light)":
+            scopeSelector = ".light";
+            break;
+          default:
+            return;
+        }
+
+        media.each((child) => {
+          if (child.type !== "rule") {
+            return;
+          }
+
+          const newRule = new Rule({
+            selector: `${scopeSelector} ${child.selector}`,
+          });
+
+          child.each((grandChild) => newRule.append(grandChild.clone()));
+
+          media.before(newRule);
+        });
+        media.remove();
+      },
+    },
   }
 }
 

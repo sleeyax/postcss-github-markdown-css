@@ -1,8 +1,8 @@
 {
   "name": "postcss-github-markdown-css",
-  "version": "0.0.0",
-  "description": "PostCSS plugin for compatibility with sindresorhus/github-markdown-css",
-  "keywords": ["postcss", "css", "postcss-plugin", "postcss-github-markdown-css"],
+  "version": "0.0.1",
+  "description": "PostCSS plugin to add TailwindCSS `class` support to `sindresorhus/github-markdown-css`",
+  "keywords": ["postcss", "css", "postcss-plugin", "postcss-github-markdown-css", "github-markdown-css", "tailwind", "tailwindcss"],
   "scripts": {
     "unit": "node --test index.test.js",
     "test": "npm run unit && eslint ."
